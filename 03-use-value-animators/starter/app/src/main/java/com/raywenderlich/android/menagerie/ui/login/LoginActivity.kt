@@ -35,7 +35,12 @@ class LoginActivity : AppCompatActivity(), LoginView {
     binding.loginButton.setOnClickListener {
       binding.progressBar.visibility = View.VISIBLE
       loginViewModel.logIn()
+      animateLogin()
     }
+  }
+
+  private fun animateLogin() {
+    TODO("Not yet implemented")
   }
 
   override fun onLoggedIn() { // todo button animation, transition, progress
