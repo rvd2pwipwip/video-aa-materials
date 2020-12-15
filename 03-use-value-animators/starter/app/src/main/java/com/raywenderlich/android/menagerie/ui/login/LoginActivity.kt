@@ -1,5 +1,6 @@
 package com.raywenderlich.android.menagerie.ui.login
 
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
@@ -7,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.BounceInterpolator
-import android.view.animation.DecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
@@ -47,19 +47,25 @@ class LoginActivity : AppCompatActivity(), LoginView {
     binding.progressBar.alpha = 0f
     binding.progressBar.visibility = View.VISIBLE
 
+    //OBJECT ANIMATORS
+    val progressBarAnimator =
+      ObjectAnimator.ofFloat(binding.progressBar, "alpha", 0f, 1f)
+    progressBarAnimator.duration = 2000
+    progressBarAnimator.interpolator = AccelerateDecelerateInterpolator()
+
+    //VALUE ANIMATORS
+    val loginButtonAnimator = ValueAnimator.ofFloat(0f, 1f)
+    loginButtonAnimator.duration = 2000
+//    loginButtonAnimator.interpolator = DecelerateInterpolator()
+//    loginButtonAnimator.interpolator = AccelerateDecelerateInterpolator()
+    loginButtonAnimator.interpolator = BounceInterpolator()
+
     val buttonWidth = binding.loginButton.width
     val buttonHeight = binding.loginButton.height
 
-    val alphaAnimator = ValueAnimator.ofFloat(0f, 1f)
-    alphaAnimator.duration = 2000
-//    alphaAnimator.interpolator = DecelerateInterpolator()
-//    alphaAnimator.interpolator = AccelerateDecelerateInterpolator()
-    alphaAnimator.interpolator = BounceInterpolator()
-
-    alphaAnimator.addUpdateListener {
+    loginButtonAnimator.addUpdateListener {
       val animatedValue = it.animatedValue as Float
-
-      binding.progressBar.alpha = animatedValue
+      
       binding.loginButton.alpha = 1 - animatedValue * 1.5f
 
       binding.loginButton.updateLayoutParams {
@@ -68,7 +74,8 @@ class LoginActivity : AppCompatActivity(), LoginView {
       }
     }
 
-    alphaAnimator.start()
+    loginButtonAnimator.start()
+    progressBarAnimator.start()
   }
 
   override fun onLoggedIn() { // todo button animation, transition, progress
