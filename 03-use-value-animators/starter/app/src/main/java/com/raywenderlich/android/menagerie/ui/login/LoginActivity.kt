@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.BounceInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
@@ -48,7 +51,10 @@ class LoginActivity : AppCompatActivity(), LoginView {
     val buttonHeight = binding.loginButton.height
 
     val alphaAnimator = ValueAnimator.ofFloat(0f, 1f)
-    alphaAnimator.duration = 1000
+    alphaAnimator.duration = 2000
+//    alphaAnimator.interpolator = DecelerateInterpolator()
+//    alphaAnimator.interpolator = AccelerateDecelerateInterpolator()
+    alphaAnimator.interpolator = BounceInterpolator()
 
     alphaAnimator.addUpdateListener {
       val animatedValue = it.animatedValue as Float
